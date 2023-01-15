@@ -34,12 +34,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: 💻 set Kubeconfig 
-        run: |
-          mkdir ${HOME}/.kubeconfig
-          export KUBECONFIG=$(pwd)/kubeconfig
-          echo ${{ secrets.KUBECONFIG_CLUSTER }} | base64 --decode > ${HOME}/.kubeconfig
-          kubectl get nodes       
 
       - name: 🚀 Run Lint Helm Chart
         run: helm lint thiago-site-helm/
