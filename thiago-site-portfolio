@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: site-namespace
+
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploy-site
+  namespace: site-namespace
+  labels:
+    app: meu-site
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+       app: meu-site
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: meu-site
+    spec:
+      containers:
+      - image: thiagocaldeira/meu-site
+        name: thiago-meu-site
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: service-site
+  namespace: site-namespace
+spec:
+  selector:
+     app: meu-site
+  ports:
+  - port: 80
+    targetPort: 80
+
+---
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-site
+  namespace: site-namespace
+
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: thiago-site-portfolio.stag.jac.bsb.br
+    http:
+      paths:
+      - backend:
+          service:
+            name: service-site
+            port:
+              number: 80
+        path: /
+        pathType: Prefix

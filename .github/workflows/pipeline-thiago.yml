@@ -1,0 +1,48 @@
+name: Pipeline CI/CD - Projeto Thiago
+
+on: 
+  push:
+    branches:
+      - main
+
+jobs:
+  build-image:
+    name: 🎉 Build
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v2
+    
+      - name: 🐋 Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: 🐋 Buil and Push Docker Hub
+        uses: docker/build-push-action@v3
+        with:
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/meu-site
+
+  deploy-image:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 💻 set Kubeconfig 
+        run: |
+          mkdir ${HOME}/.kubeestag
+          echo ${{ secrets.KUBECONFIG }} | base64 --decode > ${HOME}/.kubeestag/config
+                 
+
+      - name: 🚀 Run Lint Helm Chart
+        run: helm lint thiago-site-helm/
+
+      - name: 🚀 Deploy Helm Chart
+        run: helm upgrade --create-namespace thiago-portfolio-v1 thiago-site-helm/
+

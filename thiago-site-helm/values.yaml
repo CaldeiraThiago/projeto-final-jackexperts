@@ -1,0 +1,14 @@
+# Parametros da minha aplicação
+
+namespace:
+  name: thiago-portfolio-v1
+
+deployment:
+  name: deployment-site
+  app: meu-site
+
+service:
+  name: service-site
+
+ingress:
+  name: ingress-site

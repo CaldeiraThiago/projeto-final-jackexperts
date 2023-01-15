@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.deployment.name }}
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: {{ .Values.deployment.app }}
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+       app: {{ .Values.deployment.app }}
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.deployment.app }}
+    spec:
+      containers:
+      - image: thiagocaldeira/meu-site
+        name: nginx-thiago-site
