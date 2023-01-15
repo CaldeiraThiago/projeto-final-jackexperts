@@ -37,6 +37,7 @@ jobs:
       - name: 💻 set Kubeconfig 
         run: |
           mkdir ${HOME}/.kubeconfig
+          export KUBECONFIG=$(pwd)/kubeconfig
           echo ${{ secrets.KUBECONFIG_CLUSTER }} | base64 --decode > ${HOME}/.kubeconfig
           kubectl get nodes       
 
