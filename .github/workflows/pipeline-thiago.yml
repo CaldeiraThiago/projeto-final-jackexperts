@@ -38,7 +38,7 @@ jobs:
         run: |
           mkdir ${HOME}/.kubeconfig
           export KUBECONFIG=$(pwd)/kubeconfig
-          cp ${{ secrets.KUBECONFIG_CLUSTER }} > {HOME}/.kubeconfig
+          cp ${{ secrets.KUBECONFIG_CLUSTER }} ${HOME}/.kubeconfig
           kubectl get nodes       
 
       - name: 🚀 Run Lint Helm Chart
