@@ -37,7 +37,7 @@ jobs:
       - name: 💻 set Kubeconfig 
         run: |
           mkdir ${HOME}/.kubeconfig
-          echo ${{ secrets.KUBECONFIG_CLUSTER }} >> ${HOME}/.kubeestag/config
+          echo ${{ secrets.KUBECONFIG_CLUSTER }} | base64 --decode > ${HOME}/.kubeconfig
           kubectl get nodes       
 
       - name: 🚀 Run Lint Helm Chart
