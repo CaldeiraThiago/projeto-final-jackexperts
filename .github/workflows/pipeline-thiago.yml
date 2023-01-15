@@ -22,11 +22,12 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: 🐋 Buil and Push Docker Hub
-        uses: docker/build-push-action@v3
+      - name: 🐋 Buil and Push Docker Image
+        uses: docker/build-push-action@v2
         with:
+          context: .        
           push: true
-          tags: thiagocaldeira/meu-site:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/meu-site:latest
 
   deploy-image:
     name: 🎉 Deploy
