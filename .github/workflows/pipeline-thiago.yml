@@ -37,7 +37,7 @@ jobs:
       - name: 🚀 Expose KUBECONFIG
         run: |
           mkdir ${HOME}/.kube
-          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config-
+          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
 
       - name: 🚀 Run Lint Helm Chart
         run: helm lint thiago-site-helm/
