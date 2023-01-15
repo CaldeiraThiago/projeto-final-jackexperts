@@ -34,12 +34,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
      
-      - name: 💻 set Kubeconfig 
+      - name: Set KUBECONFIG environment variable
         run: |
-          mkdir ${HOME}/.kubeconfig
-          export KUBECONFIG=$(pwd)/kubeconfig
-          cp ${{ secrets.KUBECONFIG_CLUSTER }} ${HOME}/.kubeconfig
-          kubectl get nodes       
+          mkdir ${HOME}/.kube
+          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config-
 
       - name: 🚀 Run Lint Helm Chart
         run: helm lint thiago-site-helm/
