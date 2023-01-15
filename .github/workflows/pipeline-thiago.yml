@@ -33,7 +33,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
+     
+      - name: 💻 set Kubeconfig 
+        run: |
+          mkdir ${HOME}/.kubeconfig
+          export KUBECONFIG=$(pwd)/kubeconfig
+          cp ${{ secrets.KUBECONFIG_CLUSTER }} > {HOME}/.kubeconfig
+          kubectl get nodes       
 
       - name: 🚀 Run Lint Helm Chart
         run: helm lint thiago-site-helm/
